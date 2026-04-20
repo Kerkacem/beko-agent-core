@@ -15,19 +15,9 @@ jobs:
           python-version: '3.13'
 
       - name: Install
-        run: pip install groq pytest requests
+        run: pip install groq pytest
 
       - name: Run Agent
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python beko-agent-main.py
-
-      - name: Commit
-        run: |
-          git config user.name "BEKO Agent"
-          git config user.email "kerkacem@github.com"
-          git add .
-          git commit -m "Hourly: $(date)" || echo "No changes"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
