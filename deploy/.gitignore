@@ -1,0 +1,11 @@
+Python
+_pycache_/
+*.pyc
+.venv/
+.pytest_cache/
+logs/hourly.log
+
+OS
+.DS_Store
+Thumbs.db
+text

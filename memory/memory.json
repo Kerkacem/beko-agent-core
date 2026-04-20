@@ -1,0 +1,36 @@
+[{
+  "id": "fact_001",
+  "type": "fact",
+  "content": "example fact",
+  "tags": ["example"],
+  "source": "example_source",
+  "created_at": "2026-04-20T14:00:00+01:00"
+}, {
+  "id": "fact_002",
+  "type": "fact",
+  "content": "example fact 2",
+  "tags": ["example2"],
+  "source": "example_source2",
+  "created_at": "2026-04-20T14:00:00+01:00"
+}, {
+  "id": "fact_003",
+  "type": "fact",
+  "content": "example fact 3",
+  "tags": ["example3"],
+  "source": "example_source3",
+  "created_at": "2026-04-20T14:00:00+01:00"
+}, {
+  "id": "fact_004",
+  "type": "fact",
+  "content": "example fact 4",
+  "tags": ["example4"],
+  "source": "example_source4",
+  "created_at": "2026-04-20T14:00:00+01:00"
+}, {
+  "id": "fact_005",
+  "type": "fact",
+  "content": "metrics/ system created for progress tracking",
+  "tags": ["metrics", "kpi", "progress"],
+  "source": "metrics_init",
+  "created_at": "2026-04-20T14:10:00+01:00"
+}]
