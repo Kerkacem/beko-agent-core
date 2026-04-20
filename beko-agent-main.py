@@ -1,13 +1,12 @@
 import os
 import json
-import requests
 from groq import Groq
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 if not GROQ_API_KEY:
     print("❌ لم يتم العثور على متغير البيئة GROQ_API_KEY")
     print("رجاءً ضع API Key الخاص بـ Groq في متغير البيئة ثم أعد التشغيل.")
-    exit(1)
+    raise SystemExit(1)
 
 groq_client = Groq(api_key=GROQ_API_KEY)
 
@@ -96,11 +95,6 @@ def call_llm(goal: str) -> dict:
         print(content)
         raise
 
-def run_steps(steps):
-    resp = requests.post(RUNNER_URL, json={"steps": steps})
-    resp.raise_for_status()
-    return resp.json()
-
 def main():
     print("=== BEKO Agent (Groq) ===")
 
@@ -116,10 +110,7 @@ def main():
     print("Thought:", plan.get("thought"))
     steps = plan.get("steps", [])
     print(f"Agent اقترح {len(steps)} خطوة، سيتم تنفيذها الآن...")
-
-    result = run_steps(steps)
-    print("نتائج التنفيذ:")
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+    print(json.dumps({"thought": plan.get("thought"), "steps": steps}, ensure_ascii=False, indent=2))
 
 if __name__ == "__main__":
     main()
