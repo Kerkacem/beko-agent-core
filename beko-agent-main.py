@@ -1,9 +1,8 @@
 import os
 import json
-import requests  # لا نستخدمه الآن إلا لـ run_steps
+import requests
 from groq import Groq
 
-# إعدادات Groq
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 if not GROQ_API_KEY:
     print("❌ لم يتم العثور على متغير البيئة GROQ_API_KEY")
@@ -34,7 +33,7 @@ Each step must be ONE of the following shapes:
      "path": "D:/beko-agent-core/relative/or/absolute/path"
    }
 
-3) Run a command (tool recently added):
+3) Run a command:
    {
      "action": "run_command",
      "command": "python | pytest | node | npm | git",
@@ -45,15 +44,11 @@ Important rules:
 - Paths must stay INSIDE D:/beko-agent-core.
 - For run_command:
   - Only use allowed commands: python, pytest, node, npm, git.
-  - Assume the working directory (cwd) is D:/beko-agent-core.
-  - Start with simple, low-risk commands such as:
-    - { "action": "run_command", "command": "python", "args": ["--version"] }
-    - { "action": "run_command", "command": "git", "args": ["status"] } (if it makes sense).
-- Do NOT use wildcards in paths for write_file. For read_file you may try patterns like src/*.py,
-  but understand that the runner may return empty content for patterns that do not match a concrete file.
+  - Assume the working directory is D:/beko-agent-core.
+  - Start with simple, low-risk commands.
 
 Response format:
-- Always respond with PURE JSON, no explanations, no markdown, no ``` fences.
+- Always respond with PURE JSON, no explanations, no markdown, no fences.
 - JSON shape:
   {
     "thought": "short reasoning in English",
@@ -62,18 +57,13 @@ Response format:
 """
 
 def _strip_markdown_fence(text: str) -> str:
-    """
-    بعض الأحيان الموديل يرجع JSON داخل ```json ... ``` فنزيل هذه الـ fences.
-    """
     t = text.strip()
     if t.startswith("```"):
-        # احذف السطر الأول (``` أو ```json)
         first_nl = t.find("\n")
         if first_nl != -1:
             t = t[first_nl + 1 :]
-        # احذف ``` في النهاية إن وجدت
         if t.endswith("```"):
-            t = t[: -3].strip()
+            t = t[:-3].strip()
     return t
 
 def call_llm(goal: str) -> dict:
@@ -81,37 +71,30 @@ def call_llm(goal: str) -> dict:
         model="llama-3.3-70b-versatile",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": f"Goal:\n{goal}"}
+            {"role": "user", "content": f"Goal:\n{goal}"},
         ],
         temperature=0.2,
         max_completion_tokens=2048,
     )
 
     content = chat_completion.choices[0].message.content
-
-    # حماية من حالة None
     if content is None:
         raise RuntimeError("Groq returned no content in message.content")
 
-    # أحياناً Groq يرجع list من القطع، لكن في أغلب الحالات يكون str
     if isinstance(content, list):
         content = "".join(
             part.get("text", "") if isinstance(part, dict) else str(part)
             for part in content
         )
 
-    # إزالة ```json ... ``` إن وُجدت
     content_clean = _strip_markdown_fence(content)
 
-    # نتوقع أن الموديل يرجع JSON خالص بعد التنظيف
     try:
-        obj = json.loads(content_clean)
+        return json.loads(content_clean)
     except json.JSONDecodeError:
         print("❌ الموديل لم يرجع JSON صالح:")
         print(content)
         raise
-
-    return obj
 
 def run_steps(steps):
     resp = requests.post(RUNNER_URL, json={"steps": steps})
@@ -127,7 +110,7 @@ def main():
             goal = f.read().strip()
         print(f"سيتم استخدام الهدف من {goal_file}")
     else:
-        goal = input("اكتب الهدف العام (مثال: create initial project structure):\n> ")
+        goal = input("اكتب الهدف العام:\n> ")
 
     plan = call_llm(goal)
     print("Thought:", plan.get("thought"))
