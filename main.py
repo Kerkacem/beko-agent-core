@@ -1,1 +1,1 @@
-# Main entry point of the project
+print('Self-building agent started')

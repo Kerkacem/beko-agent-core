@@ -1,0 +1,10 @@
+{
+  "thought": "AI returned invalid JSON - using fallback Flask app",
+  "steps": [
+    {
+      "action": "write_file",
+      "path": "app.py",
+      "content": "from flask import Flask, request, jsonify\napp = Flask(__name__)\n\n@app.route('/login', methods=['POST'])\ndef login():\n    data = request.json\n    username = data.get('username', '')\n    password = data.get('password', '')\n    if username == 'admin' and password == '1234':\n        return jsonify({\"token\": \"jwt_token_here\", \"status\": \"success\"})\n    return jsonify({\"error\": \"invalid credentials\"}), 401\n\nif __name__ == \"__main__\":\n    app.run(debug=True)\n"
+    }
+  ]
+}
