@@ -1,0 +1,11 @@
+{
+  "skill_name": "skill-identifier",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "ساعدني ندير no description",
+      "expected_output": "نتيجة واضحة",
+      "files": []
+    }
+  ]
+}

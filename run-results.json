@@ -1,7 +1,9 @@
 [
   {
-    "index": 0,
-    "ok": true,
-    "action": "write_file"
+    "action": "write_file",
+    "path": "status.py",
+    "status": "success",
+    "size": 38,
+    "index": 0
   }
 ]

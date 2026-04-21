@@ -1,0 +1,23 @@
+{
+  "skill_name": "skill-creator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "ساعدني ندير Skill Creator",
+      "expected_output": "نتيجة واضحة ومفيدة",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "عندي مشكلة في Skill Creator عاونّي",
+      "expected_output": "حل عملي",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "طورلي طريقة باش ندير Skill Creator",
+      "expected_output": "تحسين + أفكار",
+      "files": []
+    }
+  ]
+}
