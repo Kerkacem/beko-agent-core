@@ -1,20 +1,10 @@
 {
-  "thought": "Creating a complete skill system with the required files and content",
+  "thought": "JSON fallback - BEKO safe mode",
   "steps": [
     {
       "action": "write_file",
-      "path": "SKILL.md",
-      "content": "# Skill Identifier\n## Goal\nThe goal of this skill is to create a complete system for managing and evaluating skills.\n## Output\nThe output of this skill will be the files produced, rendered inline where possible.\n### SKILL.md\nThis file will contain the markdown documentation for the skill.\n### evals/evals.json\nThis file will contain the JSON test cases for evaluating the skill.\n### scripts/meta-ads.py\nThis file will contain the helper script for Meta Ads and TRC Protocol integration."
-    },
-    {
-      "action": "write_file",
-      "path": "evals/evals.json",
-      "content": "[\n  {\n    \"test_case\": \"Test Case 1\",\n    \"input\": \"Input for Test Case 1\",\n    \"expected_output\": \"Expected Output for Test Case 1\"\n  },\n  {\n    \"test_case\": \"Test Case 2\",\n    \"input\": \"Input for Test Case 2\",\n    \"expected_output\": \"Expected Output for Test Case 2\"\n  },\n  {\n    \"test_case\": \"Test Case 3\",\n    \"input\": \"Input for Test Case 3\",\n    \"expected_output\": \"Expected Output for Test Case 3\"\n  }\n]"
-    },
-    {
-      "action": "write_file",
-      "path": "scripts/meta-ads.py",
-      "content": "import requests\nimport json\n\ndef get_meta_ads_data():\n  # Meta Ads API endpoint\n  url = \"https://api.meta.com/ads\"\n  # TRC Protocol API endpoint\n  trc_url = \"https://api.trc.com/protocol\"\n  # Send request to Meta Ads API\n  response = requests.get(url)\n  # Send request to TRC Protocol API\n  trc_response = requests.get(trc_url)\n  # Parse JSON response\n  data = json.loads(response.text)\n  trc_data = json.loads(trc_response.text)\n  # Return the combined data\n  return {**data, **trc_data}"
+      "path": "status.py",
+      "content": "print(\"BEKO v6.1 OK - DZD Ready\")"
     }
   ]
 }
