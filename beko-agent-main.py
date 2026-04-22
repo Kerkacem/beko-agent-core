@@ -2,6 +2,7 @@
 import os
 import json
 import sqlite3
+import threading
 from pathlib import Path
 from typing import Dict, List, Any
 from groq import Groq
@@ -82,7 +83,6 @@ def load_goal() -> Dict[str, str]:
             "goal": "Build DZD Ecom skill",
             "output": "SKILL.md + evals",
         }
-
     data = {}
     try:
         with open(config.GOAL_FILE, "r", encoding="utf-8") as f:
@@ -102,9 +102,7 @@ def load_goal() -> Dict[str, str]:
 # SYSTEM PROMPT محسن
 SYSTEM_PROMPT = """
 BEKO v6.1 DZD Ecom Agent.
-
 RETURN ONLY VALID JSON:
-
 {
   "thought": "short reasoning (Arabic/English)",
   "steps": [
@@ -114,16 +112,15 @@ RETURN ONLY VALID JSON:
       "content": "complete markdown skill"
     },
     {
-      "action": "write_file", 
+      "action": "write_file",
       "path": "evals/evals.json",
       "content": "JSON evals"
     }
   ]
 }
-
 Rules:
 - DZD currency
-- COD 20-40% returns  
+- COD 20-40% returns
 - Meta Ads + TRC Protocol
 - Clean code, no emoji
 """
@@ -150,7 +147,7 @@ def generate_plan(goal: str) -> Dict[str, Any]:
 class Engine:
     def execute(self, plan: Dict[str, Any]) -> List[Dict[str, str]]:
         results = []
-        steps = plan.get("steps", [])[: config.MAX_STEPS]
+        steps = plan.get("steps", [])[:config.MAX_STEPS]
         for step in steps:
             result = self._run_step(step)
             results.append(result)
@@ -213,15 +210,14 @@ def main():
     print(f"📋 Goal: {g['name']} | {g['goal'][:50]}...")
 
     goal_prompt = f"""
-    Name: {g['name']}
-    Goal: {g['goal']}
-    Output: {g['output']}
-    
-    Create COMPLETE skill system:
-    - SKILL.md (Claude format)
-    - evals/evals.json (3 test cases)
-    - scripts/meta-ads.py (helper)
-    """
+Name: {g['name']}
+Goal: {g['goal']}
+Output: {g['output']}
+Create COMPLETE skill system:
+- SKILL.md (Claude format)
+- evals/evals.json (3 test cases)
+- scripts/meta-ads.py (helper)
+"""
 
     plan = generate_plan(goal_prompt)
 
@@ -241,10 +237,15 @@ def main():
     print(f"✅ COMPLETE! {len([r for r in results if r['status']=='success'])} files")
     print("📄 plan.json + results.json")
 
-    # API
+    # API - run in background thread (non-blocking) so workflow can continue
     if FLASK_AVAILABLE:
         print("🌐 API: http://localhost:5000/status")
-        app.run(port=5000, debug=False)
+        flask_thread = threading.Thread(
+            target=lambda: app.run(port=5000, debug=False, use_reloader=False),
+            daemon=True,
+        )
+        flask_thread.start()
+        print("✅ Flask API started in background thread")
 
 
 if __name__ == "__main__":
