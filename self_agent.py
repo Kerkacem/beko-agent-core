@@ -26,6 +26,7 @@ DB_PATH = ROOT / "memory" / "agent.db"
 
 print("✅ المجلدات جاهزة!")
 
+
 # 2. قاعدة البيانات
 def init_db():
     conn = sqlite3.connect(DB_PATH)

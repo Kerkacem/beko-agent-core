@@ -1,7 +1,7 @@
 name: BEKO Agent Hourly
 on:
   schedule:
-    - cron: 0 * * * *
+    - cron: '0 * * * *'
   workflow_dispatch:
 permissions:
   contents: write
@@ -10,13 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
-          python-version: 3.13
+          python-version: '3.13'
       - name: Install deps
-        run: pip install groq pytest requests flask
-      - name: Restore agent file
-        run: git checkout -- beko-agent-main.py || true
+        run: pip install -r requirements.txt
       - name: Run Agent
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
@@ -24,10 +25,14 @@ jobs:
       - name: Commit outputs
         run: |
           git config user.name BEKO-Agent
-          git config user.email kerkacem@github.com
-          git checkout -- beko-agent-main.py
-          git add app.py plan.json || true
-          git diff --cached --quiet && echo no-changes || git commit -m "BEKO hourly $(date +%Y%m%d-%H%M)"
-          git push
+          git config user.email "kerkacem@github.com"
+          git checkout -- beko-agent-main.py || true
+          git add app.py plan.json results.json || true
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "BEKO hourly $(date +%Y%m%d-%H%M)"
+            git push
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

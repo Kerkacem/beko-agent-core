@@ -14,6 +14,7 @@ import sys
 ROOT = Path("beko_windows")
 ROOT.mkdir(exist_ok=True)
 
+
 class WindowsBEKO:
     def __init__(self):
         self.api_key = os.getenv("GROQ_API_KEY")
@@ -24,7 +25,7 @@ class WindowsBEKO:
             print("✅ Groq Ready")
         else:
             print("⚠️ Set $env:GROQ_API_KEY")
-    
+
     def grok_loop(self):
         while self.running:
             try:
@@ -32,12 +33,15 @@ class WindowsBEKO:
                     resp = self.client.chat.completions.create(
                         model="llama3-8b-8192",
                         messages=[{"role": "user", "content": "Status check BEKO."}],
-                        max_tokens=100
+                        max_tokens=100,
                     )
-                    print(f"[{time.strftime('%H:%M')}] Grok: {resp.choices[0].message.content[:50]}...")
-            except: pass
+                    print(
+                        f"[{time.strftime('%H:%M')}] Grok: {resp.choices[0].message.content[:50]}..."
+                    )
+            except:
+                pass
             time.sleep(60)  # كل دقيقة
-    
+
     def start_service(self):
         # Background Grok
         grok_thread = threading.Thread(target=self.grok_loop, daemon=True)
@@ -49,6 +53,7 @@ class WindowsBEKO:
         except KeyboardInterrupt:
             self.running = False
             print("🛑 Service Stopped")
+
 
 if __name__ == "__main__":
     beko = WindowsBEKO()
