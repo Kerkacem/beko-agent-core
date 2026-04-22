@@ -8,10 +8,12 @@ st.title("🎯 BEKO - مدير إعلانات Meta")
 st.markdown("---")
 
 # الأوامر
-col1, col2 = st.columns([2,1])
+col1, col2 = st.columns([2, 1])
 with col1:
     st.header("الأمر")
-    command = st.selectbox("", ["تحليل منتج", "بناء حملة", "سكريبتات بيع", "حلل البيانات"])
+    command = st.selectbox(
+        "", ["تحليل منتج", "بناء حملة", "سكريبتات بيع", "حلل البيانات"]
+    )
 with col2:
     st.header("المنتج")
     product = st.text_input("", "حقائب جلدية")
@@ -21,10 +23,10 @@ budget = st.number_input("الميزانية DZD", 1000, 20000, 5000)
 if st.button("🚀 نفّذ", type="primary"):
     goal = f"{command} {product} {budget} DZD"
     Path("goal.txt").write_text(goal)
-    
+
     with st.spinner("BEKO يشتغل..."):
         subprocess.run(["python", "beko-agent-main.py"], shell=True)
-    
+
     if Path("plan.json").exists():
         with open("plan.json") as f:
             st.success("تم الإنجاز! 🎉")

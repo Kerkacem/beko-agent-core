@@ -1,17 +1,17 @@
 [
   {
-    "test_case": 1,
-    "input": "DZD currency",
-    "expected_output": "Currency: DZD"
+    "test_case": "Test Case 1",
+    "input": "Input for Test Case 1",
+    "expected_output": "Expected Output for Test Case 1"
   },
   {
-    "test_case": 2,
-    "input": "COD 20-40% returns",
-    "expected_output": "Return percentage: 20-40%"
+    "test_case": "Test Case 2",
+    "input": "Input for Test Case 2",
+    "expected_output": "Expected Output for Test Case 2"
   },
   {
-    "test_case": 3,
-    "input": "Meta Ads + TRC Protocol",
-    "expected_output": "Advertising platform: Meta Ads, Protocol: TRC"
+    "test_case": "Test Case 3",
+    "input": "Input for Test Case 3",
+    "expected_output": "Expected Output for Test Case 3"
   }
 ]

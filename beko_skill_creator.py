@@ -2,6 +2,7 @@ import os
 import json
 from pathlib import Path
 
+
 def load_goal():
     goal_file = Path("goal.txt")
     if goal_file.exists():
@@ -15,8 +16,9 @@ def load_goal():
         desc = " ".join(lines[1:]) if len(lines) > 1 else "skill auto generated"
 
         return name, desc
-    
+
     return "default-skill", "auto skill"
+
 
 def create_skill():
     name, desc = load_goal()
@@ -28,7 +30,7 @@ def create_skill():
         "evals": base / "evals" / "evals.json",
         "scripts": base / "scripts",
         "refs": base / "references",
-        "assets": base / "assets"
+        "assets": base / "assets",
     }
 
     # folders
@@ -67,21 +69,37 @@ compatibility:
     evals_data = {
         "skill_name": name,
         "evals": [
-            {"id": 1, "prompt": f"ساعدني ندير {desc}", "expected_output": "نتيجة", "files": []},
-            {"id": 2, "prompt": f"مشكلة في {desc}", "expected_output": "حل", "files": []}
-        ]
+            {
+                "id": 1,
+                "prompt": f"ساعدني ندير {desc}",
+                "expected_output": "نتيجة",
+                "files": [],
+            },
+            {
+                "id": 2,
+                "prompt": f"مشكلة في {desc}",
+                "expected_output": "حل",
+                "files": [],
+            },
+        ],
     }
 
-    paths["evals"].write_text(json.dumps(evals_data, indent=2, ensure_ascii=False), encoding="utf-8")
+    paths["evals"].write_text(
+        json.dumps(evals_data, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
 
-    (paths["scripts"] / "helper.py").write_text("""def run():
+    (paths["scripts"] / "helper.py").write_text(
+        """def run():
     print("ok")
 
 if __name__ == "__main__":
     run()
-""", encoding="utf-8")
+""",
+        encoding="utf-8",
+    )
 
     print("تم", base)
+
 
 if __name__ == "__main__":
     create_skill()

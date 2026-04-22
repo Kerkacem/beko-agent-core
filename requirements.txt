@@ -1,6 +1,9 @@
-
-torch>=2.0,<3.0
-numpy>=1.24
-groq>=0.1
-pytest>=7.0
-python-dotenv>=1.0
+torch
+groq
+streamlit
+flask
+flask-jwt-extended
+python-telegram-bot
+pytest
+requests==2.32.3
+black

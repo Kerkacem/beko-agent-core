@@ -1,9 +1,11 @@
 # Skill Identifier
 ## Goal
-The goal of this skill is to create a complete system with the required files and content.
+The goal of this skill is to create a complete system for managing and evaluating skills.
 ## Output
 The output of this skill will be the files produced, rendered inline where possible.
-### Files
-* SKILL.md: This file, containing the skill identifier and goal.
-* evals/evals.json: A JSON file containing 3 test cases.
-* scripts/meta-ads.py: A Python script containing a helper function for Meta Ads.
+### SKILL.md
+This file will contain the markdown documentation for the skill.
+### evals/evals.json
+This file will contain the JSON test cases for evaluating the skill.
+### scripts/meta-ads.py
+This file will contain the helper script for Meta Ads and TRC Protocol integration.
