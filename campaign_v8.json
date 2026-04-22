@@ -1,0 +1,57 @@
+{
+  "account_id": "act_4330803053874384",
+  "currency": "DZD",
+  "daily_budget": 5000,
+  "adsets": [
+    {
+      "name": "Video 40%",
+      "budget_dzd": 2000,
+      "objective": "Traffic",
+      "placements": [
+        "Facebook Feed",
+        "Instagram Feed"
+      ],
+      "creative_types": [
+        "15s Video",
+        "UGC Video"
+      ]
+    },
+    {
+      "name": "Image 30%",
+      "budget_dzd": 1500,
+      "objective": "Conversions",
+      "retargeting": "ViewContent 7d",
+      "creative_types": [
+        "Single Image",
+        "Carousel 3 images"
+      ]
+    },
+    {
+      "name": "Carousel 30%",
+      "budget_dzd": 1500,
+      "objective": "Catalog Sales",
+      "optimization": "COD Orders",
+      "creative_types": [
+        "Dynamic Product Catalog"
+      ]
+    }
+  ],
+  "TRC_KPIs": {
+    "ROAS_target": 2.5,
+    "TRC_target": "25%",
+    "CPA_target": 150,
+    "max_return_rate": "30%",
+    "kill_conditions": [
+      "ROAS < 1.8",
+      "TRC < 20%",
+      "CPA > 250 DZD"
+    ]
+  },
+  "scale_protocol": {
+    "week_1": "Test 500 DZD x 3 days only",
+    "day_2": "Kill losers (ROAS < 1.8)",
+    "day_4": "Scale winners x10 to 5000 DZD",
+    "schedule": "Mon-Thu full, Fri-Sun OFF",
+    "method": "Scheduled Budget only"
+  }
+}

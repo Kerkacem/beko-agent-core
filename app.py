@@ -1,14 +1,9 @@
-from flask import Flask, request, jsonify
-app = Flask(__name__)
+import json
 
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.json
-    username = data.get('username', '')
-    password = data.get('password', '')
-    if username == 'admin' and password == '1234':
-        return jsonify({"token": "jwt_token_here", "status": "success"})
-    return jsonify({"error": "invalid credentials"}), 401
+def write_json(data):
+    with open('data.json', 'w') as f:
+        json.dump(data, f)
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# Example usage:
+json_data = {'name': 'John', 'age': 30}
+write_json(json_data)

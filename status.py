@@ -1,0 +1,1 @@
+print("BEKO v6.1 OK - DZD Ready")

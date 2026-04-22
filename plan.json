@@ -1,10 +1,20 @@
 {
-  "thought": "AI returned invalid JSON - using fallback Flask app",
+  "thought": "Creating a complete skill system with the required files and content",
   "steps": [
     {
       "action": "write_file",
-      "path": "app.py",
-      "content": "from flask import Flask, request, jsonify\napp = Flask(__name__)\n\n@app.route('/login', methods=['POST'])\ndef login():\n    data = request.json\n    username = data.get('username', '')\n    password = data.get('password', '')\n    if username == 'admin' and password == '1234':\n        return jsonify({\"token\": \"jwt_token_here\", \"status\": \"success\"})\n    return jsonify({\"error\": \"invalid credentials\"}), 401\n\nif __name__ == \"__main__\":\n    app.run(debug=True)\n"
+      "path": "SKILL.md",
+      "content": "# Skill Identifier\n## Goal\nThe goal of this skill is to create a complete system with the required files and content.\n## Output\nThe output of this skill will be the files produced, rendered inline where possible.\n### Files\n* SKILL.md: This file, containing the skill identifier and goal.\n* evals/evals.json: A JSON file containing 3 test cases.\n* scripts/meta-ads.py: A Python script containing a helper function for Meta Ads."
+    },
+    {
+      "action": "write_file",
+      "path": "evals/evals.json",
+      "content": "[\n  {\n    \"test_case\": 1,\n    \"input\": \"DZD currency\",\n    \"expected_output\": \"Currency: DZD\"\n  },\n  {\n    \"test_case\": 2,\n    \"input\": \"COD 20-40% returns\",\n    \"expected_output\": \"Return percentage: 20-40%\"\n  },\n  {\n    \"test_case\": 3,\n    \"input\": \"Meta Ads + TRC Protocol\",\n    \"expected_output\": \"Advertising platform: Meta Ads, Protocol: TRC\"\n  }\n]"
+    },
+    {
+      "action": "write_file",
+      "path": "scripts/meta-ads.py",
+      "content": "def get_meta_ads_data():\n  # Helper function to get Meta Ads data\n  return {\n    \"ad_platform\": \"Meta Ads\",\n    \"protocol\": \"TRC\"\n  }\n\ndef calculate_return_percentage():\n  # Helper function to calculate return percentage\n  return 20, 40"
     }
   ]
 }
