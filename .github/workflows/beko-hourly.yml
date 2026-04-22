@@ -12,7 +12,9 @@ jobs:
         with:
           python-version: '3.13'
       - name: Install deps
-        run: pip install groq pytest requests
+        run: pip install groq pytest requests flask
+      - name: Restore core agent file
+        run: git checkout -- beko-agent-main.py || true
       - name: Run Agent
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
@@ -21,8 +23,9 @@ jobs:
         run: |
           git config user.name "BEKO Agent"
           git config user.email "kerkacem@github.com"
-          git add .
-          git commit -m "Hourly BEKO: $(date)" || echo "No changes"
+          git checkout -- beko-agent-main.py
+          git add app.py plan.json skills/ logs/ memory/ metrics/ || true
+          git diff --cached --quiet && echo "No changes" || git commit -m "Hourly BEKO: $(date)"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
