@@ -1,10 +1,25 @@
 {
-  "thought": "JSON fallback - BEKO safe mode",
+  "thought": "Create a Meta Ads optimizer for DZD COD campaigns",
   "steps": [
     {
       "action": "write_file",
-      "path": "status.py",
-      "content": "print(\"BEKO v6.1 OK - DZD Ready\")"
+      "path": "SKILL.md",
+      "content": "# Meta Ads Optimizer Skill\n## Overview\nThis skill is designed to optimize Meta Ads for DZD COD campaigns, with the goal of scaling to 5000 DZD daily and achieving 20-40% returns.\n## Requirements\n* Python 3.8+\n* Meta Ads API access\n* TRC Protocol integration\n## Usage\n1. Install required libraries: `pip install -r requirements.txt`\n2. Set up Meta Ads API credentials: `export METAADS_API_KEY=YOUR_API_KEY`\n3. Run the optimizer: `python skills/meta_ads_optimizer.py`"
+    },
+    {
+      "action": "write_file",
+      "path": "evals/evals.json",
+      "content": "[\n  {\n    \"test_case\": \"Low budget campaign\",\n    \"budget\": 1000,\n    \"expected_return\": 200\n  },\n  {\n    \"test_case\": \"Medium budget campaign\",\n    \"budget\": 2500,\n    \"expected_return\": 500\n  },\n  {\n    \"test_case\": \"High budget campaign\",\n    \"budget\": 5000,\n    \"expected_return\": 1000\n  }\n]"
+    },
+    {
+      "action": "write_file",
+      "path": "scripts/meta-ads.py",
+      "content": "import os\nimport json\nfrom facebookads.adobjects.adaccount import AdAccount\nfrom facebookads.adobjects.campaign import Campaign\n\n# Set up Meta Ads API credentials\napi_key = os.environ['METAADS_API_KEY']\n\n# Create a new campaign\ndef create_campaign(budget):\n  ad_account = AdAccount('act_4330803053874384')\n  campaign = Campaign(parent_id=ad_account['id'])\n  campaign.update({\n    'name': 'DZD COD Campaign',\n    'objective': 'CONVERSIONS',\n    'status': 'ACTIVE',\n    'budget': {'amount': budget, 'currency': 'DZD'}\n  })\n  return campaign\n\n# Optimize the campaign\ndef optimize_campaign(campaign, budget):\n  # Implement optimization logic here\n  pass"
+    },
+    {
+      "action": "write_file",
+      "path": "skills/meta_ads_optimizer.py",
+      "content": "import json\nfrom scripts.meta_ads import create_campaign, optimize_campaign\n\n# Load evaluation cases\nwith open('evals/evals.json') as f:\n  eval_cases = json.load(f)\n\n# Run the optimizer for each evaluation case\nfor case in eval_cases:\n  budget = case['budget']\n  campaign = create_campaign(budget)\n  optimize_campaign(campaign, budget)\n  # Implement auto-analysis and scripting here\n  pass"
     }
   ]
 }
