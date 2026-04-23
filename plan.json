@@ -14,12 +14,12 @@
     {
       "action": "write_file",
       "path": "scripts/meta-ads.py",
-      "content": "import os\nimport json\nfrom facebookads.adobjects.adaccount import AdAccount\nfrom facebookads.adobjects.campaign import Campaign\n\n# Set up Meta Ads API credentials\napi_key = os.environ['METAADS_API_KEY']\n\n# Create a new campaign\ndef create_campaign(budget):\n  ad_account = AdAccount('act_4330803053874384')\n  campaign = Campaign(parent_id=ad_account['id'])\n  campaign.update({\n    'name': 'DZD COD Campaign',\n    'objective': 'CONVERSIONS',\n    'status': 'ACTIVE',\n    'budget': {'amount': budget, 'currency': 'DZD'}\n  })\n  return campaign\n\n# Optimize the campaign\ndef optimize_campaign(campaign, budget):\n  # Implement optimization logic here\n  pass"
+      "content": "import os\nimport json\nfrom facebook import FacebookAds\n\n# Set up Meta Ads API credentials\napi_key = os.environ['METAADS_API_KEY']\n\n# Initialize Meta Ads API client\nclient = FacebookAds(api_key)\n\n# Define a function to create a new campaign\ndef create_campaign(budget, return_on_ad_spend):\n  campaign = client.create_campaign(\n    name='DZD COD Campaign',\n    objective='CONVERSIONS',\n    budget=budget,\n    return_on_ad_spend=return_on_ad_spend\n  )\n  return campaign\n\n# Define a function to optimize the campaign\ndef optimize_campaign(campaign):\n  # Implement TRC Protocol integration\n  # ..."
     },
     {
       "action": "write_file",
       "path": "skills/meta_ads_optimizer.py",
-      "content": "import json\nfrom scripts.meta_ads import create_campaign, optimize_campaign\n\n# Load evaluation cases\nwith open('evals/evals.json') as f:\n  eval_cases = json.load(f)\n\n# Run the optimizer for each evaluation case\nfor case in eval_cases:\n  budget = case['budget']\n  campaign = create_campaign(budget)\n  optimize_campaign(campaign, budget)\n  # Implement auto-analysis and scripting here\n  pass"
+      "content": "import json\nfrom scripts.meta_ads import create_campaign, optimize_campaign\n\n# Load evals.json\nwith open('evals/evals.json') as f:\n  evals = json.load(f)\n\n# Define the main function\ndef main():\n  for eval in evals:\n    budget = eval['budget']\n    expected_return = eval['expected_return']\n    campaign = create_campaign(budget, expected_return)\n    optimize_campaign(campaign)\n\nif __name__ == '__main__':\n  main()"
     }
   ]
 }
