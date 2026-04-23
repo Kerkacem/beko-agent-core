@@ -14,12 +14,12 @@
     {
       "action": "write_file",
       "path": "scripts/meta-ads.py",
-      "content": "import os\nimport json\nfrom facebookads.adobjects.adaccount import AdAccount\nfrom facebookads.adobjects.campaign import Campaign\n\n# Set up Meta Ads API credentials\napi_key = os.environ['METAADS_API_KEY']\n\n# Create a new campaign\ndef create_campaign(budget):\n  ad_account = AdAccount('act_4330803053874384')\n  campaign = Campaign(parent_id=ad_account['id'])\n  campaign.update({\n    'name': 'DZD COD Campaign',\n    'objective': 'CONVERSIONS',\n    'status': 'ACTIVE',\n    'budget': {'amount': budget, 'currency': 'DZD'}\n  })\n  return campaign\n\n# Optimize the campaign\ndef optimize_campaign(campaign, budget):\n  # Implement TRC Protocol integration\n  # ..."
+      "content": "import os\nimport json\nfrom facebookads.adobjects.adaccount import AdAccount\nfrom facebookads.adobjects.campaign import Campaign\n\n# Set up Meta Ads API credentials\napi_key = os.environ['METAADS_API_KEY']\n\n# Create a new campaign\ndef create_campaign(budget):\n  campaign = Campaign(parent_id='act_4330803053874384')\n  campaign[Campaign.Field.name] = 'DZD COD Campaign'\n  campaign[Campaign.Field.objective] = 'CONVERSIONS'\n  campaign[Campaign.Field.status] = 'ACTIVE'\n  campaign[Campaign.Field.budget] = budget\n  campaign.remote_create()\n  return campaign\n\n# Get campaign performance\ndef get_campaign_performance(campaign_id):\n  campaign = Campaign(fbid=campaign_id)\n  performance = campaign.get_insights(fields=['spend', 'reach', 'impressions'])\n  return performance"
     },
     {
       "action": "write_file",
       "path": "skills/meta_ads_optimizer.py",
-      "content": "import json\nfrom scripts.meta_ads import create_campaign, optimize_campaign\n\n# Load evals\nwith open('evals/evals.json') as f:\n  evals = json.load(f)\n\n# Run the optimizer\nfor eval in evals:\n  budget = eval['budget']\n  expected_return = eval['expected_return']\n  campaign = create_campaign(budget)\n  optimize_campaign(campaign, budget)\n  # ..."
+      "content": "import json\nfrom scripts.meta_ads import create_campaign, get_campaign_performance\n\n# Load evals\nwith open('evals/evals.json') as f:\n  evals = json.load(f)\n\n# Run optimizer\nfor eval in evals:\n  budget = eval['budget']\n  expected_return = eval['expected_return']\n  campaign = create_campaign(budget)\n  performance = get_campaign_performance(campaign['id'])\n  # Auto-analyze and adjust campaign\n  if performance['spend'] > budget * 0.8:\n    # Adjust campaign budget\n    campaign[Campaign.Field.budget] = budget * 0.9\n    campaign.remote_update()\n  elif performance['reach'] < expected_return:\n    # Adjust campaign targeting\n    campaign[Campaign.Field.targeting] = {'geo_locations': {'countries': ['DZA']}}\n    campaign.remote_update()"
     }
   ]
 }
