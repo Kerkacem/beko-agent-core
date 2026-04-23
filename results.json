@@ -3,24 +3,24 @@
     "action": "write_file",
     "path": "SKILL.md",
     "status": "success",
-    "size": 465
+    "size": 452
   },
   {
     "action": "write_file",
     "path": "evals/evals.json",
     "status": "success",
-    "size": 295
-  },
-  {
-    "action": "write_file",
-    "path": "scripts/meta-ads.py",
-    "status": "success",
-    "size": 1567
+    "size": 617
   },
   {
     "action": "write_file",
     "path": "skills/meta_ads_optimizer.py",
     "status": "success",
-    "size": 406
+    "size": 592
+  },
+  {
+    "action": "write_file",
+    "path": "scripts/meta-ads.py",
+    "status": "success",
+    "size": 503
   }
 ]
