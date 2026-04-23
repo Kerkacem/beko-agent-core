@@ -15,12 +15,12 @@
     "action": "write_file",
     "path": "scripts/meta-ads.py",
     "status": "success",
-    "size": 723
+    "size": 859
   },
   {
     "action": "write_file",
     "path": "skills/meta_ads_optimizer.py",
     "status": "success",
-    "size": 459
+    "size": 405
   }
 ]
