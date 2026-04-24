@@ -3,7 +3,7 @@
     "action": "write_file",
     "path": "SKILL.md",
     "status": "success",
-    "size": 465
+    "size": 472
   },
   {
     "action": "write_file",
@@ -15,12 +15,12 @@
     "action": "write_file",
     "path": "scripts/meta-ads.py",
     "status": "success",
-    "size": 677
+    "size": 985
   },
   {
     "action": "write_file",
     "path": "skills/meta_ads_optimizer.py",
     "status": "success",
-    "size": 373
+    "size": 491
   }
 ]

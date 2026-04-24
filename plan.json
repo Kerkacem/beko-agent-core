@@ -4,7 +4,7 @@
     {
       "action": "write_file",
       "path": "SKILL.md",
-      "content": "# Meta Ads Optimizer Skill\n## Overview\nThis skill is designed to optimize Meta Ads for DZD COD campaigns, with the goal of scaling to 5000 DZD daily and achieving 20-40% returns.\n## Requirements\n* Python 3.8+\n* Meta Ads API access\n* TRC Protocol integration\n## Usage\n1. Install required libraries: `pip install -r requirements.txt`\n2. Set up Meta Ads API credentials: `export METAADS_API_KEY=YOUR_API_KEY`\n3. Run the optimizer: `python skills/meta_ads_optimizer.py`"
+      "content": "# Meta Ads Optimizer Skill\n## Overview\nThis skill is designed to optimize Meta Ads for DZD COD campaigns, with the goal of scaling to 5000 DZD daily and achieving 20-40% returns.\n## Requirements\n* Python 3.8+\n* Meta Ads API access\n* TRC Protocol integration\n## Usage\n1. Install required libraries: `pip install meta-ads-api trc-protocol`\n2. Set up Meta Ads API credentials: `export META_ADS_API_KEY=YOUR_API_KEY`\n3. Run the optimizer: `python skills/meta_ads_optimizer.py`"
     },
     {
       "action": "write_file",
@@ -14,12 +14,12 @@
     {
       "action": "write_file",
       "path": "scripts/meta-ads.py",
-      "content": "import os\nimport json\nfrom facebookads.adobjects.adaccount import AdAccount\nfrom facebookads.adobjects.campaign import Campaign\n\n# Set up Meta Ads API credentials\napi_key = os.environ['METAADS_API_KEY']\n\n# Create a new campaign\ndef create_campaign(budget):\n  ad_account = AdAccount('act_4330803053874384')\n  campaign = Campaign(parent_id=ad_account['id'])\n  campaign.update({\n    'name': 'DZD COD Campaign',\n    'objective': 'CONVERSIONS',\n    'status': 'ACTIVE',\n    'budget': {'budget': budget}\n  })\n  return campaign\n\n# Optimize the campaign\ndef optimize_campaign(campaign, budget):\n  # Implement TRC Protocol integration\n  # Auto-analyze and adjust campaign settings\n  pass"
+      "content": "import os\nimport json\nfrom meta_ads_api import MetaAds\nfrom trc_protocol import TRC\n\n# Set up Meta Ads API credentials\nmeta_ads_api_key = os.environ['META_ADS_API_KEY']\n\n# Initialize Meta Ads API client\nmeta_ads_client = MetaAds(meta_ads_api_key)\n\n# Initialize TRC Protocol client\ntrc_client = TRC()\n\n# Define a function to optimize Meta Ads campaigns\ndef optimize_campaign(budget):\n  # Get campaign data from Meta Ads API\n  campaign_data = meta_ads_client.get_campaign_data()\n  # Analyze campaign data using TRC Protocol\n  analysis = trc_client.analyze(campaign_data)\n  # Optimize campaign based on analysis\n  optimized_campaign = meta_ads_client.optimize_campaign(analysis, budget)\n  return optimized_campaign\n\n# Define a function to run the optimizer\ndef run_optimizer(budget):\n  optimized_campaign = optimize_campaign(budget)\n  # Save optimized campaign data to file\n  with open('optimized_campaign.json', 'w') as f:\n    json.dump(optimized_campaign, f)\n  return optimized_campaign"
     },
     {
       "action": "write_file",
       "path": "skills/meta_ads_optimizer.py",
-      "content": "import json\nfrom scripts.meta_ads import create_campaign, optimize_campaign\n\n# Load evals.json\nwith open('evals/evals.json') as f:\n  evals = json.load(f)\n\n# Run the optimizer\nfor eval in evals:\n  budget = eval['budget']\n  campaign = create_campaign(budget)\n  optimize_campaign(campaign, budget)\n  # Evaluate the campaign's performance\n  # Update evals.json with the results"
+      "content": "import os\nimport json\nfrom scripts.meta_ads import run_optimizer\n\n# Set up budget and expected return\nbudget = 5000\nexpected_return = 0.2 * budget\n\n# Run the optimizer\noptimized_campaign = run_optimizer(budget)\n\n# Evaluate the optimized campaign\nevaluation = {\n  'budget': budget,\n  'expected_return': expected_return,\n  'actual_return': optimized_campaign['actual_return']\n}\n\n# Save evaluation data to file\nwith open('evals/evals.json', 'a') as f:\n  json.dump(evaluation, f)\n  f.write('\\n')"
     }
   ]
 }
