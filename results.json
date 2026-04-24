@@ -9,18 +9,18 @@
     "action": "write_file",
     "path": "evals/evals.json",
     "status": "success",
-    "size": 635
+    "size": 295
   },
   {
     "action": "write_file",
     "path": "scripts/meta-ads.py",
     "status": "success",
-    "size": 579
+    "size": 677
   },
   {
     "action": "write_file",
     "path": "skills/meta_ads_optimizer.py",
     "status": "success",
-    "size": 589
+    "size": 373
   }
 ]
